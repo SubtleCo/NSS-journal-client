@@ -55,14 +55,16 @@ export const EntryForm = (props) => {
                 concept: entry.concept,
                 entry: entry.entry,
                 date: entry.date,
-                moodId: parseInt(entry.moodId)
+                moodId: parseInt(entry.moodId),
+                tags: liveTags
             })
         } else {
             addEntry({
                 concept: entry.concept,
                 entry: entry.entry,
                 date: Date.now(),
-                moodId: parseInt(entry.moodId)
+                moodId: parseInt(entry.moodId),
+                tags: liveTags
             })
         }
         setEntry({ concept: "", entry: "", moodId: 0 })

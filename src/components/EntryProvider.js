@@ -29,7 +29,7 @@ export const EntryProvider = props => {
   const getEntryById = id => {
     return fetch(`http://localhost:8088/entries/${id}`)
       .then(res => res.json())
-      .then(setEntry);;
+      .then(setEntry);
   };
 
   const addEntry = Entry => {
