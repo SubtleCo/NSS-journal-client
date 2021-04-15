@@ -4,13 +4,15 @@ import { MoodContext } from "./mood/MoodProvider"
 
 
 export const EntryForm = (props) => {
-    const { addEntry, updateEntry, entry, setEntry } = useContext(EntryContext)
+    const { addEntry, updateEntry, entry, setEntry, tags, getTags } = useContext(EntryContext)
     const { moods, getMoods } = useContext(MoodContext)
+    const [liveTags, setLiveTags] = useState([])
 
     const [editMode, editModeChanged] = useState(false)
 
     useEffect(() => {
         getMoods()
+        getTags()
     }, [])
 
     useEffect(() => {
@@ -28,7 +30,18 @@ export const EntryForm = (props) => {
             and change state instead of modifying current one
         */
         const newEntry = Object.assign({}, entry)
-        newEntry[event.target.name] = event.target.value
+        if (event.target.name.includes("tag")) {
+            const currentTags = [...liveTags]
+            if (event.target.checked) {
+                currentTags.push(parseInt(event.target.value))
+            } else {
+                const index = currentTags.indexOf(parseInt(event.target.value))
+                currentTags.splice(index, 1)
+            }
+            setLiveTags(currentTags)
+        } else {
+            newEntry[event.target.name] = event.target.value
+        }
         setEntry(newEntry)
     }
 
@@ -95,6 +108,24 @@ export const EntryForm = (props) => {
                             </option>
                         ))}
                     </select>
+                </div>
+            </fieldset>
+            <fieldset>
+                <div className="form-group">
+                    <label htmlFor="tags">Tags:</label>
+                    {
+                        tags.map(tag => (
+                            <>
+                                <label htmlFor={tag.id}>{tag.label}</label>
+                                <input key={tag.id}
+                                    name={`tag ${tag.id}`}
+                                    value={tag.id}
+                                    type="checkbox"
+                                    onChange={handleControlledInputChange}>
+                                </input>
+                            </>
+                        ))
+                    }
                 </div>
             </fieldset>
             <button type="submit"
