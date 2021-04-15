@@ -13,6 +13,8 @@ export const Entry = ({ entry, moods }) => {
       <div className="entry__entry">{entry.entry}</div>
       <div className="entry__date">{entry.date}</div>
       <div className="entry__mood">{mood.label}</div>
+      <div className="entry__tags">{entry.tags.join(", ")}</div>
+
 
       <button onClick={
         () => {
